@@ -38,7 +38,6 @@ def handle_response(request):
     to_user = xml.find('ToUserName').text
     from_user = xml.find('FromUserName').text
     msg_type = xml.find("MsgType").text
-    content = xml.find("Content").text
     if msg_type == 'text':
         reply = '''
                 <xml>
@@ -49,7 +48,8 @@ def handle_response(request):
                 <Content><![CDATA[%s]]></Content>
                 </xml>
                 '''
-        response = make_response(reply % (from_user, to_user, str(int(time.time())), content))
+        response = make_response(reply % (from_user, to_user, str(int(time.time())),xml.find("Content").text
+))
         response.headers['content-type'] = 'application/xml'
         return response
     elif msg_type == 'event':
